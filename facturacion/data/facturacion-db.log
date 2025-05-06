@@ -1,22 +1,24 @@
 /*C4*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C5*/SET SCHEMA PUBLIC
-create table Categoria (oid varchar(32) not null, descripcion varchar(50), primary key (oid))
-INSERT INTO CATEGORIA VALUES('4028814496a028eb0196a02b53cb0000','Software')
+create table Factura (oid varchar(32) not null, anyo integer, fecha date, numero integer, observaciones varchar(255), primary key (oid))
+INSERT INTO FACTURA VALUES('4028814496a47ede0196a47f19ad0000',2025,'2025-05-06',1,'fas')
 COMMIT
-alter table Producto add column categoria_oid varchar(32)
-alter table Producto add constraint FKc81rcy0vfdn5ewnap5scabhd3 foreign key (categoria_oid) references Categoria
-INSERT INTO CATEGORIA VALUES('4028814496a028eb0196a02d17650001','Libros')
+INSERT INTO FACTURA VALUES('4028814496a47ede0196a47f787b0001',2024,'2024-05-08',1,'')
 COMMIT
-INSERT INTO CATEGORIA VALUES('4028814496a028eb0196a02d25320002','M\u00fasica')
+INSERT INTO FACTURA VALUES('4028814496a47ede0196a47f92140002',2023,'2025-05-06',1,'')
 COMMIT
+DELETE FROM FACTURA WHERE OID='4028814496a47ede0196a47f92140002'
+COMMIT
+DELETE FROM FACTURA WHERE OID='4028814496a47ede0196a47f787b0001'
+COMMIT
+DELETE FROM FACTURA WHERE OID='4028814496a47ede0196a47f19ad0000'
+COMMIT
+alter table Factura add column cliente_numero integer not null
+alter table Factura add constraint FKmd10sg74xw8mq3d2m9k2kxual foreign key (cliente_numero) references Cliente
+create table Factura_detalles (Factura_oid varchar(32) not null, cantidad integer not null, producto_numero integer)
+alter table Factura_detalles add constraint FKe3f314u9v7uw8aktwkjo8473t foreign key (producto_numero) references Producto
+alter table Factura_detalles add constraint FKpl16p1cpo7r84s75asx5db9nq foreign key (Factura_oid) references Factura
 DELETE FROM PRODUCTO WHERE NUMERO=1
-INSERT INTO PRODUCTO VALUES(1,'teclado tech','4028814496a028eb0196a02b53cb0000')
+INSERT INTO PRODUCTO VALUES(1,'teclado tech','4028814496a028eb0196a02b53cb0000',NULL,'',50.00)
 COMMIT
-alter table Producto add column fotos varchar(32)
-alter table Producto add column observaciones varchar(255)
-alter table Producto add column precio numeric(19,2)
-alter table Cliente add column codigoPostal integer
-alter table Cliente add column municipio varchar(20)
-alter table Cliente add column provincia varchar(30)
-alter table Cliente add column viaPublica varchar(30)
